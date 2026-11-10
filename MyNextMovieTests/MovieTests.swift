@@ -56,10 +56,14 @@ struct MovieTests {
         #expect(movieSubtitle(actionMovieFrom1999) == "1999 · Action")
     }
 
-    // TODO: Lab 1, task 1. Check `movieSubtitle` when a part is missing:
-    // only a genre gives "Science Fiction", only a date gives "1999", neither gives "".
-    @Test(.disabled("Lab 1, task 1: write this test"))
-    func subtitleLeavesOutMissingParts() {
+    @Test func subtitleLeavesOutMissingParts() {
+        let movieWithOnlyGenre = makeMovie(genreIds: [genreIdScienceFiction])
+        let movieWithOnlyDate = makeMovie(releaseDate: "1999-03-31")
+        let movieWithNeither = makeMovie()
+
+        #expect(movieSubtitle(movieWithOnlyGenre) == "Science Fiction")
+        #expect(movieSubtitle(movieWithOnlyDate) == "1999")
+        #expect(movieSubtitle(movieWithNeither) == "")
     }
 }
 
@@ -95,11 +99,14 @@ struct GenreTests {
         #expect(knownGenreIds(movieWithUnknownGenre) == [genreIdAction, genreIdScienceFiction])
     }
 
-    // TODO: Lab 1, task 1. Check that `mainGenreId` skips unknown ids:
-    // [genreIdUnknownToTMDB, genreIdScienceFiction, genreIdAction] gives genreIdScienceFiction,
-    // and a movie with only [genreIdUnknownToTMDB] gives noGenreId.
-    @Test(.disabled("Lab 1, task 1: write this test"))
-    func mainGenreIdIsFirstKnownGenre() {
+    @Test func mainGenreIdIsFirstKnownGenre() {
+        let movieStartingWithUnknownGenre = makeMovie(
+            genreIds: [genreIdUnknownToTMDB, genreIdScienceFiction, genreIdAction]
+        )
+        let movieWithOnlyUnknownGenre = makeMovie(genreIds: [genreIdUnknownToTMDB])
+
+        #expect(mainGenreId(movieStartingWithUnknownGenre) == genreIdScienceFiction)
+        #expect(mainGenreId(movieWithOnlyUnknownGenre) == noGenreId)
     }
 }
 

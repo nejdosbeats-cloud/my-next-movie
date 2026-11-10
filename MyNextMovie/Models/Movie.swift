@@ -29,17 +29,15 @@ nonisolated struct Movie: Identifiable, Hashable, Codable {
 
 /// "1999-03-31" -> "1999", empty when the date is unknown.
 func releaseYear(_ movie: Movie) -> String {
-    // TODO: Lab 1, task 1. Return the first `releaseYearLength` characters of
-    // `movie.releaseDate`, or "" when the date is shorter than that.
-    // Hint: `String(text.prefix(count))`.
-    return ""
+    if movie.releaseDate.count < releaseYearLength {
+        return ""
+    }
+    return String(movie.releaseDate.prefix(releaseYearLength))
 }
 
 /// 8.24 -> "8.2"
 func formattedRating(_ movie: Movie) -> String {
-    // TODO: Lab 1, task 1. Format `movie.voteAverage` with `ratingFormat`.
-    // Hint: `String(format: ratingFormat, number)`.
-    return ""
+    return String(format: ratingFormat, movie.voteAverage)
 }
 
 /// 8.24 -> "★ 8.2"
